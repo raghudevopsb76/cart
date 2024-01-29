@@ -36,3 +36,20 @@ jobs:
       env:
         ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
 
+    - name: Deploy to Dev Env
+      run: |
+        curl "http://gocd.rdevopsb72.online:8153/go/api/pipelines/MutableDeployment_RoboShop_cart/schedule" -H 'Accept: application/vnd.go.cd.v1+json' -H 'Content-Type: application/json' \
+               -X POST \
+               -d "{
+                     \"environment_variables\": [
+                       {
+                         \"name\": \"APP_VERSION\",
+                         \"secure\": false,
+                         \"value\": \"${GITHUB_REF_NAME}\"
+                       }
+                     ],
+                     \"update_materials_before_scheduling\": true
+                   }"
+
+      env:
+        ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
