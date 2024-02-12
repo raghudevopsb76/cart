@@ -1,0 +1,3 @@
+component: cart
+replicas: 1
+repo_name: cart
