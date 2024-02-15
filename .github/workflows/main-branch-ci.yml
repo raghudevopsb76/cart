@@ -15,21 +15,35 @@ jobs:
       run:
         shell: bash
 
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Install NodeJS Dependencies
-      run: npm install
+#     - name: Install NodeJS Dependencies
+#       run: npm install
 
     - name: Docker build
-      run: docker build -t 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:latest .
+      run: docker build -t 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:${GITHUB_RUN_NUMBER} .
 
     - name: Docker Login
       run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 633788536644.dkr.ecr.us-east-1.amazonaws.com
 
     - name: Docker Push
-      run: docker push 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:latest
+      run: docker push 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:${GITHUB_RUN_NUMBER}
+
+    - name: Create local changes
+      run: |
+        echo ${GITHUB_RUN_NUMBER} >> helm/dev.yaml
+        echo ${GITHUB_RUN_NUMBER} >> helm/prod.yaml
+
+    - uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Push Changes Automated
 
     - name: Merge main -> deploy
       uses: devmasx/merge-branch@master
