@@ -38,6 +38,7 @@ jobs:
 
     - name: Create local changes
       run: |
+        sed -i -e '/buildNo/ d' helm/dev.yaml helm/prod.yaml
         echo -e "\nbuildNo: ${GITHUB_RUN_NUMBER}" >> helm/dev.yaml
         echo -e "\nbuildNo: ${GITHUB_RUN_NUMBER}" >> helm/prod.yaml
 
