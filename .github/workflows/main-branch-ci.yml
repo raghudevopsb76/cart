@@ -33,7 +33,8 @@ jobs:
 
     - name: Create local changes
       run: |
-        env
+        echo ${GITHUB_RUN_NUMBER} >> helm/dev.yaml
+        echo ${GITHUB_RUN_NUMBER} >> helm/prod.yaml
 
     - name: Commit & Helm Version changes
       uses: actions-js/push@master
