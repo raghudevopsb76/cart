@@ -38,8 +38,8 @@ jobs:
 
     - name: Create local changes
       run: |
-        echo ${GITHUB_RUN_NUMBER} >> helm/dev.yaml
-        echo ${GITHUB_RUN_NUMBER} >> helm/prod.yaml
+        echo -e "\nbuildNo: ${GITHUB_RUN_NUMBER}" >> helm/dev.yaml
+        echo -e "\nbuildNo: ${GITHUB_RUN_NUMBER}" >> helm/prod.yaml
 
     - uses: stefanzweifel/git-auto-commit-action@v5
       with:
