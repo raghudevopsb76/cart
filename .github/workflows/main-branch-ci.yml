@@ -15,6 +15,11 @@ jobs:
       run:
         shell: bash
 
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -36,10 +41,9 @@ jobs:
         echo ${GITHUB_RUN_NUMBER} >> helm/dev.yaml
         echo ${GITHUB_RUN_NUMBER} >> helm/prod.yaml
 
-    - name: Commit & Helm Version changes
-      uses: actions-js/push@master
+    - uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        github_token: ${{ secrets.TOKEN_GITHUB }}
+        commit_message: Push Changes Automated
 
     - name: Merge main -> deploy
       uses: devmasx/merge-branch@master
