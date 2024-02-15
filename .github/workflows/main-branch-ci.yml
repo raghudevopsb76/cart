@@ -31,4 +31,10 @@ jobs:
     - name: Docker Push
       run: docker push 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:latest
 
-
+    - name: Merge main -> deploy
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: main
+        target_branch: deploy
+        github_token: ${{ secrets.TOKEN_GITHUB }}
