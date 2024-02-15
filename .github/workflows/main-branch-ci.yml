@@ -22,4 +22,7 @@ jobs:
     - name: Install NodeJS Dependencies
       run: npm install
 
+    - name: Docker build
+      run: docker build 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:latest .
+
 
