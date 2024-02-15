@@ -25,4 +25,10 @@ jobs:
     - name: Docker build
       run: docker build -t 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:latest .
 
+    - name: Docker Login
+      run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 633788536644.dkr.ecr.us-east-1.amazonaws.com
+
+    - name: Docker Push
+      run: docker push 633788536644.dkr.ecr.us-east-1.amazonaws.com/cart:latest
+
 
